@@ -61,4 +61,27 @@ internal class CalculateWinningHandsTest {
             assertEquals(false, muckHand.isFlush())
         }
     }
+
+    @Nested
+    inner class isStraight {
+        @Test
+        fun `should return true when there is a straight`() {
+            val aHand = listOf<Card>(
+                Card(Suit.SPADE, Picture.JACK),
+                Card(Suit.HEART, Picture.NINE),
+                Card(Suit.DIAMOND, Picture.TEN),
+                Card(Suit.DIAMOND, Picture.EIGHT),
+                Card(Suit.CLUB, Picture.QUEEN),
+                Card(Suit.CLUB, Picture.TWO),
+                Card(Suit.CLUB, Picture.FIVE)
+            )
+
+            assertEquals(true, aHand.isStraight())
+        }
+
+        @Test
+        fun `should return false when there is not a straight`() {
+            assertEquals(false, muckHand.isFlush())
+        }
+    }
 }

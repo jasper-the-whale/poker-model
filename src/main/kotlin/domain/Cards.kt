@@ -17,23 +17,29 @@ enum class Suit(val suitName: String, val suitNumber: Int) {
     }
 }
 
-enum class Picture(val picturesNumber: Int) {
-    TWO(2),
-    THREE(3),
-    FOUR(4),
-    FIVE(5),
-    SIX(6),
-    SEVEN(7),
-    EIGHT(8),
-    NINE(9),
-    TEN(10),
-    JACK(11),
-    QUEEN(12),
-    KING(13),
-    ACE(14);
+enum class Picture(val picturesNumber: Int, val pictureString: String) {
+    TWO(2, "2"),
+    THREE(3, "3"),
+    FOUR(4, "4"),
+    FIVE(5, "5"),
+    SIX(6, "6"),
+    SEVEN(7, "7"),
+    EIGHT(8, "8"),
+    NINE(9, "9"),
+    TEN(10, "10"),
+    JACK(11, "J"),
+    QUEEN(12, "Q"),
+    KING(13, "K"),
+    ACE(14, "A");
 
     companion object {
         fun getPictureFromNumber(number: Int): Picture =
             values().first { it.picturesNumber == number }
     }
 }
+
+fun Int.isJoinedBelowBy(anotherCardNumber: Int): Boolean =
+    this - anotherCardNumber == 1
+
+fun Int.isJoinedAboveBy(anotherCardNumber: Int): Boolean =
+    anotherCardNumber - this == 1
