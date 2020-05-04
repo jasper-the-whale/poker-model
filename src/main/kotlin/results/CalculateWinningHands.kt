@@ -3,8 +3,19 @@ package results
 import domain.Card
 import domain.Suit
 
-//Will take a list of cards and returns true if there is a pair of cards that match
 fun List<Card>.isPair(): Boolean =
+    this.groupBy { it.pictures }.entries.count() <= 5
+
+fun List<Card>.isTriple(): Boolean =
+    this.groupBy { it.pictures }.entries.any { it.value.size == 3 }
+
+fun List<Card>.isQuadruple(): Boolean =
+    this.groupBy { it.pictures }.entries.any { it.value.size == 4 }
+
+fun List<Card>.isTwoPair(): Boolean =
+    this.groupBy { it.pictures }.entries.count { it.value.size == 2 } >= 2
+
+fun List<Card>.isFullHouse(): Boolean =
     this.map { it.pictures }.distinct().size != this.size
 
 fun List<Card>.isFlush(): Boolean =
@@ -15,3 +26,4 @@ fun List<Card>.isFlush(): Boolean =
         this.filter { it.suit == Suit.CLUB }.size == 5 -> true
         else -> false
     }
+
