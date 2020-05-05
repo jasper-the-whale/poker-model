@@ -2,7 +2,7 @@ package domain
 
 data class Card(
     val suit: Suit,
-    val pictures: Picture
+    val value: Value
 )
 
 enum class Suit(val suitName: String, val suitNumber: Int) {
@@ -17,7 +17,7 @@ enum class Suit(val suitName: String, val suitNumber: Int) {
     }
 }
 
-enum class Picture(val picturesNumber: Int, val pictureString: String) {
+enum class Value(val valueNumber: Int, val valueString: String) {
     TWO(2, "2"),
     THREE(3, "3"),
     FOUR(4, "4"),
@@ -33,8 +33,8 @@ enum class Picture(val picturesNumber: Int, val pictureString: String) {
     ACE(14, "A");
 
     companion object {
-        fun getPictureFromNumber(number: Int): Picture =
-            values().first { it.picturesNumber == number }
+        fun getValueFromNumber(number: Int): Value =
+            values().first { it.valueNumber == number }
     }
 }
 
