@@ -1,5 +1,5 @@
 import domain.Card
-import domain.Value
+import domain.Picture
 import domain.Suit
 
 private const val TOTAL_CARDS = 52
@@ -12,6 +12,6 @@ fun main() {
 fun getDeckOfCards(): List<Card> =
     (0 until TOTAL_CARDS).toList().map {
         val newSuit = Suit.getSuitFromNumber(it.rem(TOTAL_SUITS))
-        val newPicture = Value.getValueFromNumber(it.div(TOTAL_SUITS) + 2)
+        val newPicture = Picture.getValueFromNumber(it.div(TOTAL_SUITS) + 2)
         Card(newSuit, newPicture)
     }
