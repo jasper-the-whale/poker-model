@@ -1,9 +1,8 @@
 package results
 
 import domain.Card
-import domain.Player
 
-private val TOTAL_TABLE_CARDS = 5
+private const val TOTAL_TABLE_CARDS = 5
 
 class Table(
     private val totalSims: Long,
@@ -14,16 +13,17 @@ class Table(
 ) {
 
     fun getWinProb(): Double =
-        (0 until totalSims).toList().map { isMyHandBest() }.filter { it }.count().div(totalSims.toDouble())
+        (0 until totalSims).toList().map {
+            isMyHandBest()
+        }.count { it }.div(totalSims.toDouble())
 
-    fun isMyHandBest(): Boolean {
+    private fun isMyHandBest(): Boolean {
         val shuffledDeck = deck.shuffled()
         val extraTableCards = (0 until TOTAL_TABLE_CARDS - tableCards.size).toList()
             .map { shuffledDeck[it] }
         val table = tableCards.plus(extraTableCards)
         val myHandScore = myCards.plus(table).handRanking()
 
-        println(myHandScore)
         val otherPlayerHands = (0 until totalPlayers).toList()
             .map {
                 listOf(
@@ -34,7 +34,6 @@ class Table(
         val otherPlayerRanks = otherPlayerHands.map {
             it.handRanking()
         }
-        println(otherPlayerRanks)
 
         return !otherPlayerRanks.any { it > myHandScore }
 

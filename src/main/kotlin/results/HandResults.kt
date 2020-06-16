@@ -24,7 +24,6 @@ fun List<Card>.isFlush(): Boolean =
 
 fun List<Card>.isStraight(): Boolean {
     val orderedList = this.sortedBy { it.picture.valueNumber }.distinctBy { it.picture.valueString }
-    println(orderedList)
     val orderedPictureLists = (0..orderedList.size - 5).map {
         (0..4).fold("",
             { accumulator, index -> "$accumulator${orderedList[it + index].picture.valueString}" }
