@@ -3,9 +3,10 @@ package results
 import domain.Card
 import domain.Picture
 import domain.Suit
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
+
 
 internal class HandResultsTest {
     private val muckHand = listOf<Card>(

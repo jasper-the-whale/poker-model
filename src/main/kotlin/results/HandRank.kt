@@ -29,7 +29,6 @@ fun List<Card>.handRanking(): Long {
 
 fun getHandRating(initialHandValue: Long, hand: List<Card>): Long {
     val cardsGroupedByValue =hand.groupBy { it.picture.name }.map { it.value }
-    println(cardsGroupedByValue)
     return cardsGroupedByValue.map { pictureValueGroup ->
         val totalNumber = pictureValueGroup.size
         pictureValueGroup.map { card ->  card.picture.valueNumber.pow(totalNumber) }.sum()

@@ -23,7 +23,6 @@ internal class HandRankTest {
                 Card(Suit.CLUB, Picture.THREE),
                 Card(Suit.CLUB, Picture.QUEEN)
             )
-            println(aHand.handRanking())
         }
     }
 
