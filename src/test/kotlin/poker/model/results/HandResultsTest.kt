@@ -1,8 +1,8 @@
-package results
+package poker.model.results
 
-import domain.Card
-import domain.Picture
-import domain.Suit
+import poker.model.domain.Card
+import poker.model.domain.Weight
+import poker.model.domain.Suit
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test
 
 internal class HandResultsTest {
     private val muckHand = listOf<Card>(
-        Card(Suit.SPADE, Picture.TEN),
-        Card(Suit.HEART, Picture.KING),
-        Card(Suit.DIAMOND, Picture.FOUR),
-        Card(Suit.DIAMOND, Picture.FIVE),
-        Card(Suit.CLUB, Picture.TWO),
-        Card(Suit.CLUB, Picture.THREE),
-        Card(Suit.CLUB, Picture.QUEEN)
+        Card(Suit.SPADE, Weight.TEN),
+        Card(Suit.HEART, Weight.KING),
+        Card(Suit.DIAMOND, Weight.FOUR),
+        Card(Suit.DIAMOND, Weight.FIVE),
+        Card(Suit.CLUB, Weight.TWO),
+        Card(Suit.CLUB, Weight.THREE),
+        Card(Suit.CLUB, Weight.QUEEN)
     )
 
     @Nested
@@ -24,13 +24,13 @@ internal class HandResultsTest {
         @Test
         fun `should return true when there is a pair`() {
             val aHand = listOf<Card>(
-                Card(Suit.SPADE, Picture.TEN),
-                Card(Suit.HEART, Picture.TEN),
-                Card(Suit.DIAMOND, Picture.FOUR),
-                Card(Suit.DIAMOND, Picture.FIVE),
-                Card(Suit.CLUB, Picture.TWO),
-                Card(Suit.CLUB, Picture.THREE),
-                Card(Suit.CLUB, Picture.QUEEN)
+                Card(Suit.SPADE, Weight.TEN),
+                Card(Suit.HEART, Weight.TEN),
+                Card(Suit.DIAMOND, Weight.FOUR),
+                Card(Suit.DIAMOND, Weight.FIVE),
+                Card(Suit.CLUB, Weight.TWO),
+                Card(Suit.CLUB, Weight.THREE),
+                Card(Suit.CLUB, Weight.QUEEN)
             )
             assertEquals(true, aHand.isPair())
         }
@@ -46,13 +46,13 @@ internal class HandResultsTest {
         @Test
         fun `should return true when there is a flush`() {
             val aHand = listOf<Card>(
-                Card(Suit.DIAMOND, Picture.FOUR),
-                Card(Suit.DIAMOND, Picture.FIVE),
-                Card(Suit.CLUB, Picture.TEN),
-                Card(Suit.CLUB, Picture.JACK),
-                Card(Suit.CLUB, Picture.TWO),
-                Card(Suit.CLUB, Picture.THREE),
-                Card(Suit.CLUB, Picture.QUEEN)
+                Card(Suit.DIAMOND, Weight.FOUR),
+                Card(Suit.DIAMOND, Weight.FIVE),
+                Card(Suit.CLUB, Weight.TEN),
+                Card(Suit.CLUB, Weight.JACK),
+                Card(Suit.CLUB, Weight.TWO),
+                Card(Suit.CLUB, Weight.THREE),
+                Card(Suit.CLUB, Weight.QUEEN)
             )
             assertEquals(true, aHand.isFlush())
         }
@@ -68,13 +68,13 @@ internal class HandResultsTest {
         @Test
         fun `should return true when there is a straight`() {
             val aHand = listOf<Card>(
-                Card(Suit.SPADE, Picture.JACK),
-                Card(Suit.HEART, Picture.NINE),
-                Card(Suit.DIAMOND, Picture.TEN),
-                Card(Suit.DIAMOND, Picture.EIGHT),
-                Card(Suit.CLUB, Picture.QUEEN),
-                Card(Suit.CLUB, Picture.TWO),
-                Card(Suit.CLUB, Picture.TEN)
+                Card(Suit.SPADE, Weight.JACK),
+                Card(Suit.HEART, Weight.NINE),
+                Card(Suit.DIAMOND, Weight.TEN),
+                Card(Suit.DIAMOND, Weight.EIGHT),
+                Card(Suit.CLUB, Weight.QUEEN),
+                Card(Suit.CLUB, Weight.TWO),
+                Card(Suit.CLUB, Weight.TEN)
             )
 
             assertEquals(true, aHand.isStraight())
@@ -91,13 +91,13 @@ internal class HandResultsTest {
         @Test
         fun `should return true when there is a straight flush`() {
             val aHand = listOf<Card>(
-                Card(Suit.SPADE, Picture.JACK),
-                Card(Suit.SPADE, Picture.NINE),
-                Card(Suit.DIAMOND, Picture.TEN),
-                Card(Suit.SPADE, Picture.EIGHT),
-                Card(Suit.SPADE, Picture.QUEEN),
-                Card(Suit.CLUB, Picture.TWO),
-                Card(Suit.SPADE, Picture.TEN)
+                Card(Suit.SPADE, Weight.JACK),
+                Card(Suit.SPADE, Weight.NINE),
+                Card(Suit.DIAMOND, Weight.TEN),
+                Card(Suit.SPADE, Weight.EIGHT),
+                Card(Suit.SPADE, Weight.QUEEN),
+                Card(Suit.CLUB, Weight.TWO),
+                Card(Suit.SPADE, Weight.TEN)
             )
 
             assertEquals(true, aHand.isStraightFlush())

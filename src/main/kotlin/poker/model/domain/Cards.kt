@@ -1,8 +1,8 @@
-package domain
+package poker.model.domain
 
 data class Card(
     val suit: Suit,
-    val picture: Picture
+    val weight: Weight
 )
 
 enum class Suit(val suitName: String, val suitNumber: Int) {
@@ -17,7 +17,7 @@ enum class Suit(val suitName: String, val suitNumber: Int) {
     }
 }
 
-enum class Picture(val valueNumber: Int, val valueString: String) {
+enum class Weight(val valueNumber: Int, val valueString: String) {
     TWO(2, "2"),
     THREE(3, "3"),
     FOUR(4, "4"),
@@ -33,13 +33,7 @@ enum class Picture(val valueNumber: Int, val valueString: String) {
     ACE(14, "A");
 
     companion object {
-        fun getValueFromNumber(number: Int): Picture =
+        fun getValueFromNumber(number: Int): Weight =
             values().first { it.valueNumber == number }
     }
 }
-
-fun Int.isJoinedBelowBy(anotherCardNumber: Int): Boolean =
-    this - anotherCardNumber == 1
-
-fun Int.isJoinedAboveBy(anotherCardNumber: Int): Boolean =
-    anotherCardNumber - this == 1
