@@ -5,9 +5,12 @@ import org.springframework.boot.runApplication
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
-import poker.model.simulation.calculateOutcomeProbs
+import poker.model.domain.ApiResponse
+import poker.model.domain.CardApiCodes.Companion.translateToCard
+import poker.model.simulation.calculateOutcomeProbabilities
 
 @SpringBootApplication
 open class PokerModelApplication
@@ -22,8 +25,24 @@ class Controller {
 
     @GetMapping("/outcomes")
     @ResponseBody
-    fun getHandOutcomes(): String {
-        val result = calculateOutcomeProbs(5)
-        return ResponseEntity.status(HttpStatus.OK).body(result).toString()
+    fun getHandOutcomes(
+        @RequestParam(value = "totalSims", defaultValue = "10000") totalSims: Long,
+        @RequestParam(value = "totalPlayers", defaultValue = "2") totalPlayers: Int,
+        @RequestParam(value = "pot", defaultValue = "0") pot: Long,
+        @RequestParam(value = "betToLose", defaultValue = "0") betToLose: Long,
+        @RequestParam(value = "myCards") myCards: List<String>,
+        @RequestParam(value = "tableCards", defaultValue = "") tableCards: List<String>
+    ): ResponseEntity<ApiResponse> {
+        val myCardsTranslated = myCards.map { translateToCard(it) }
+        val tableCardsTranslated = tableCards.map { translateToCard(it) }
+        val response = calculateOutcomeProbabilities(
+            totalSims,
+            totalPlayers,
+            pot,
+            betToLose,
+            myCardsTranslated,
+            tableCardsTranslated
+        )
+        return ResponseEntity.status(HttpStatus.OK).body(response)
     }
 }

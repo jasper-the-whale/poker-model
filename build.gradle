@@ -35,11 +35,6 @@ application {
     mainClassName = "poker.model.PokerModelKt"
 }
 
-//jar {
-//    baseName = 'gs-rest-service'
-//    version = '0.1.0'
-//}
-
 test {
     useJUnitPlatform()
 

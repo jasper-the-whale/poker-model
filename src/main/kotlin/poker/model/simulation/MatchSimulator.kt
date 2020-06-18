@@ -1,52 +1,66 @@
 package poker.model.simulation
 
 import poker.model.domain.Card
-import poker.model.domain.PlayerHands
-import poker.model.domain.TableOutcome
+import poker.model.domain.HandType
+import poker.model.domain.MatchOutcome
+import poker.model.domain.MatchResult
+import poker.model.domain.PlayerHandScore
 import poker.model.results.handRanking
 
 private const val MAX_TABLE_CARDS = 5
 
-fun matchSimulator(
+fun getSimulatedMatches(
     totalSims: Long,
-    myCards: List<Card>,
+    totalPlayers: Int,
     deck: List<Card>,
-    tableCards: List<Card>,
-    totalPlayers: Int
-): List<TableOutcome> =
+    myCards: List<Card>,
+    tableCards: List<Card>
+): List<MatchResult> =
     (0 until totalSims).toList().map {
-        val simulatedGame = getSimulatedTable(myCards, deck, tableCards, totalPlayers)
-        TableOutcome(
-            simulatedGame.isMyHandBest(),
-            simulatedGame.myHand.handRanking().handType
+        val simulatedGame = simulateMatch(myCards, deck, tableCards, totalPlayers)
+        val x = MatchResult(
+            myHand = simulatedGame.myHand.handType,
+            bestHandScore = simulatedGame.getBestHandScore(),
+            bestHandType = simulatedGame.getBestHandType(),
+            isHandWinning = simulatedGame.isMyHandBest()
         )
+        println(x)
+        x
     }
 
-private fun getSimulatedTable(
-    myCards: List<Card>,
-    deck: List<Card>,
-    tableCards: List<Card>,
-    totalPlayers: Int
-): PlayerHands {
+private fun simulateMatch(
+    myCards: List<Card>, deck: List<Card>, currentTableCards: List<Card>, totalPlayers: Int
+): MatchOutcome {
     val shuffledDeck = deck.shuffled()
-    val extraTableCards = (0 until MAX_TABLE_CARDS - tableCards.size).toList()
-        .map { shuffledDeck[it] }
-    val table = tableCards.plus(extraTableCards)
+    val simulatedTable = currentTableCards.plus(
+        (0 until MAX_TABLE_CARDS - currentTableCards.size).toList()
+            .map { shuffledDeck[it] })
 
-    //println("My hand score is: $myHandScore")
-    val otherPlayerHands = (0 until totalPlayers).toList()
-        .map {
-            listOf(
-                shuffledDeck[2 * it + MAX_TABLE_CARDS - tableCards.size],
-                shuffledDeck[2 * it + MAX_TABLE_CARDS - tableCards.size + 1]
-            ).plus(table)
-        }
-    return PlayerHands(myCards.plus(table), otherPlayerHands)
+    val opponentHands =
+        getRandomOpponentHands(totalPlayers, shuffledDeck, currentTableCards, simulatedTable)
+    val bestOpponentHand = opponentHands.maxBy { it.handScore }
+        ?: PlayerHandScore(0, HandType.HIGH_CARD)
+
+    return MatchOutcome(myCards.plus(simulatedTable).handRanking(), bestOpponentHand)
 }
 
-private fun PlayerHands.isMyHandBest(): Boolean {
-    val otherPlayerRanks = this.otherHands.map { it.handRanking() }
-    val myHandRanking = this.myHand.handRanking()
-    return !otherPlayerRanks.any { it.handScore > myHandRanking.handScore }
-}
+private fun getRandomOpponentHands(
+    totalPlayers: Int, shuffledDeck: List<Card>, tableCards: List<Card>, table: List<Card>
+): List<PlayerHandScore> =
+    (0 until totalPlayers).toList().map {
+        listOf(
+            shuffledDeck[2 * it + MAX_TABLE_CARDS - tableCards.size],
+            shuffledDeck[2 * it + MAX_TABLE_CARDS - tableCards.size + 1]
+        ).plus(table)
+    }.map { it.handRanking() }
 
+private fun MatchOutcome.isMyHandBest(): Boolean =
+    this.myHand.handScore > this.bestOpponentHand.handScore
+
+private fun MatchOutcome.getBestHandScore(): Long =
+    if (this.myHand.handScore > this.bestOpponentHand.handScore) this.myHand.handScore
+    else this.bestOpponentHand.handScore
+
+private fun MatchOutcome.getBestHandType(): HandType =
+    if (this.myHand.handScore > this.bestOpponentHand.handScore) this.myHand.handType
+    else this.bestOpponentHand.handType
