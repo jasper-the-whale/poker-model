@@ -3,30 +3,12 @@ package poker.model.simulation
 import poker.model.domain.Card
 import poker.model.domain.HandType
 import poker.model.domain.MatchOutcome
-import poker.model.domain.MatchResult
 import poker.model.domain.PlayerHandScore
 import poker.model.results.handRanking
 
 private const val MAX_TABLE_CARDS = 5
 
-fun getSimulatedMatches(
-    totalSims: Long,
-    totalPlayers: Int,
-    deck: List<Card>,
-    myCards: List<Card>,
-    tableCards: List<Card>
-): List<MatchResult> =
-    (0 until totalSims).toList().map {
-        val simulatedGame = simulateMatch(myCards, deck, tableCards, totalPlayers)
-        MatchResult(
-            myHand = simulatedGame.myHand.handType,
-            bestHandScore = simulatedGame.getBestHandScore(),
-            bestHandType = simulatedGame.getBestHandType(),
-            isHandWinning = simulatedGame.isMyHandBest()
-        )
-    }
-
-private fun simulateMatch(
+fun simulateMatch(
     myCards: List<Card>, deck: List<Card>, currentTableCards: List<Card>, totalPlayers: Int
 ): MatchOutcome {
     val shuffledDeck = deck.shuffled()
@@ -52,13 +34,13 @@ private fun getRandomOpponentHands(
         ).plus(table)
     }.map { it.handRanking() }
 
-private fun MatchOutcome.isMyHandBest(): Boolean =
+fun MatchOutcome.isMyHandBest(): Boolean =
     this.myHand.handScore > this.bestOpponentHand.handScore
 
-private fun MatchOutcome.getBestHandScore(): Long =
+fun MatchOutcome.getBestHandScore(): Long =
     if (this.myHand.handScore > this.bestOpponentHand.handScore) this.myHand.handScore
     else this.bestOpponentHand.handScore
 
-private fun MatchOutcome.getBestHandType(): HandType =
+fun MatchOutcome.getBestHandType(): HandType =
     if (this.myHand.handScore > this.bestOpponentHand.handScore) this.myHand.handType
     else this.bestOpponentHand.handType

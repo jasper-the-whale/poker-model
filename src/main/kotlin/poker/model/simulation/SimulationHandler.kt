@@ -2,6 +2,7 @@ package poker.model.simulation
 
 import poker.model.domain.ApiResponse
 import poker.model.domain.Card
+import poker.model.domain.MatchResult
 import poker.model.domain.Suit
 import poker.model.domain.Weight
 
@@ -21,6 +22,23 @@ fun calculateOutcomeProbabilities(
 
     return getMatchSummary(sim, pot, betToLose)
 }
+
+private fun getSimulatedMatches(
+    totalSims: Long,
+    totalPlayers: Int,
+    deck: List<Card>,
+    myCards: List<Card>,
+    tableCards: List<Card>
+): List<MatchResult> =
+    (0 until totalSims).toList().map {
+        val simulatedGame = simulateMatch(myCards, deck, tableCards, totalPlayers)
+        MatchResult(
+            myHand = simulatedGame.myHand.handType,
+            bestHandScore = simulatedGame.getBestHandScore(),
+            bestHandType = simulatedGame.getBestHandType(),
+            isHandWinning = simulatedGame.isMyHandBest()
+        )
+    }
 
 private fun getDeckOfCards(): List<Card> {
     return (0 until TOTAL_CARDS).toList().map {

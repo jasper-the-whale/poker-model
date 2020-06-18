@@ -182,10 +182,10 @@ internal class HandResultsTest {
             val aHand = listOf<Card>(
                 Card(Suit.SPADE, Weight.JACK),
                 Card(Suit.SPADE, Weight.NINE),
-                Card(Suit.DIAMOND, Weight.TEN),
+                Card(Suit.DIAMOND, Weight.SEVEN),
                 Card(Suit.SPADE, Weight.EIGHT),
                 Card(Suit.SPADE, Weight.QUEEN),
-                Card(Suit.CLUB, Weight.TWO),
+                Card(Suit.CLUB, Weight.SIX),
                 Card(Suit.SPADE, Weight.TEN)
             )
 
