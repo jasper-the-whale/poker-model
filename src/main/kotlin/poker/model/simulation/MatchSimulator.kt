@@ -18,14 +18,12 @@ fun getSimulatedMatches(
 ): List<MatchResult> =
     (0 until totalSims).toList().map {
         val simulatedGame = simulateMatch(myCards, deck, tableCards, totalPlayers)
-        val x = MatchResult(
+        MatchResult(
             myHand = simulatedGame.myHand.handType,
             bestHandScore = simulatedGame.getBestHandScore(),
             bestHandType = simulatedGame.getBestHandType(),
             isHandWinning = simulatedGame.isMyHandBest()
         )
-        println(x)
-        x
     }
 
 private fun simulateMatch(

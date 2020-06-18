@@ -14,10 +14,10 @@ fun List<Card>.isTriple(): Boolean =
     this.groupBy { it.weight }.map { it.value }.any { it.size == 3 }
 
 fun List<Card>.isStraight(): Boolean {
-    val orderedList = this.sortedBy { it.weight.valueNumber }.distinctBy { it.weight.valueString }
+    val orderedList = this.sortedBy { it.weight.weightNumber }.distinctBy { it.weight.weightString }
     val orderedPictureLists = (0..orderedList.size - 5).map {
         (0..4).fold("",
-            { accumulator, index -> "$accumulator${orderedList[it + index].weight.valueString}" }
+            { accumulator, index -> "$accumulator${orderedList[it + index].weight.weightString}" }
         )
     }
     return orderedPictureLists.any { ALL_PICTURES_STRING.contains(it) }

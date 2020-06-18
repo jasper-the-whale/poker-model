@@ -50,6 +50,6 @@ private fun getHandScore(initialHandValue: Long, hand: List<Card>): Long {
     val cardsGroupedByValue = hand.groupBy { it.weight.name }.map { it.value }
     return initialHandValue + cardsGroupedByValue.map { pictureValueGroup ->
         val totalNumber = pictureValueGroup.size
-        pictureValueGroup.map { card -> card.weight.valueNumber.pow(totalNumber) }.sum()
+        pictureValueGroup.map { card -> card.weight.weightNumber.pow(totalNumber) }.sum()
     }.sum().toLong()
 }

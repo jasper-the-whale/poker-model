@@ -1,6 +1,5 @@
 package poker.model.domain
 
-
 data class MatchResult(
     val myHand: HandType,
     val bestHandScore: Long,

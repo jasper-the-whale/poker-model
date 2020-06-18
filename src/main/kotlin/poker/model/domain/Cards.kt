@@ -5,11 +5,11 @@ data class Card(
     val weight: Weight
 )
 
-enum class Suit(val suitNumber: Int) {
-    HEART(0),
-    DIAMOND(1),
-    SPADE(2),
-    CLUB(3);
+enum class Suit(val suitNumber: Int, val suitString: String) {
+    HEART(0, "H"),
+    DIAMOND(1,"D"),
+    SPADE(2, "S"),
+    CLUB(3, "C");
 
     companion object {
         fun getSuitFromNumber(number: Int): Suit =
@@ -17,7 +17,7 @@ enum class Suit(val suitNumber: Int) {
     }
 }
 
-enum class Weight(val valueNumber: Int, val valueString: String) {
+enum class Weight(val weightNumber: Int, val weightString: String) {
     TWO(2, "2"),
     THREE(3, "3"),
     FOUR(4, "4"),
@@ -34,6 +34,6 @@ enum class Weight(val valueNumber: Int, val valueString: String) {
 
     companion object {
         fun getValueFromNumber(number: Int): Weight =
-            values().first { it.valueNumber == number }
+            values().first { it.weightNumber == number }
     }
 }

@@ -5,6 +5,9 @@ import poker.model.domain.Card
 import poker.model.domain.Suit
 import poker.model.domain.Weight
 
+private const val TOTAL_CARDS = 52
+private const val TOTAL_SUITS = 4
+
 fun calculateOutcomeProbabilities(
     totalSims: Long,
     totalPlayers: Int,
@@ -20,13 +23,15 @@ fun calculateOutcomeProbabilities(
 }
 
 private fun getDeckOfCards(): List<Card> {
-    val totalCards = 52
-    val totalSuits = 4
-    return (0 until totalCards).toList().map {
-        val newSuit =
-            Suit.getSuitFromNumber(it.rem(totalSuits))
-        val newPicture =
-            Weight.getValueFromNumber(it.div(totalSuits) + 2)
-        Card(newSuit, newPicture)
+    return (0 until TOTAL_CARDS).toList().map {
+        val suit = Suit.getSuitFromNumber(it.rem(TOTAL_SUITS))
+        val weight = Weight.getValueFromNumber(it.div(TOTAL_SUITS) + 2)
+        Card(suit, weight)
     }
+}
+
+fun Int.translateToCard(): Card {
+    val suit = Suit.getSuitFromNumber(this.rem(TOTAL_SUITS))
+    val weight = Weight.getValueFromNumber(this.div(TOTAL_SUITS) + 2)
+    return Card(suit, weight)
 }

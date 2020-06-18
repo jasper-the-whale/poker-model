@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 import poker.model.domain.ApiResponse
-import poker.model.domain.CardApiCodes.Companion.translateToCard
 import poker.model.simulation.calculateOutcomeProbabilities
+import poker.model.simulation.translateToCard
 
 @SpringBootApplication
 open class PokerModelApplication
@@ -30,11 +30,14 @@ class Controller {
         @RequestParam(value = "totalPlayers", defaultValue = "2") totalPlayers: Int,
         @RequestParam(value = "pot", defaultValue = "0") pot: Long,
         @RequestParam(value = "betToLose", defaultValue = "0") betToLose: Long,
-        @RequestParam(value = "myCards") myCards: List<String>,
-        @RequestParam(value = "tableCards", defaultValue = "") tableCards: List<String>
+        @RequestParam(value = "myCards") myCards: List<Int>,
+        @RequestParam(value = "tableCards", defaultValue = "") tableCards: List<Int>
     ): ResponseEntity<ApiResponse> {
-        val myCardsTranslated = myCards.map { translateToCard(it) }
-        val tableCardsTranslated = tableCards.map { translateToCard(it) }
+        val myCardsTranslated = myCards.map { it.translateToCard() }
+        val tableCardsTranslated = tableCards.map { it.translateToCard() }
+
+        println(myCardsTranslated)
+        println(tableCardsTranslated)
         val response = calculateOutcomeProbabilities(
             totalSims,
             totalPlayers,
